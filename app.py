@@ -27,14 +27,21 @@ node = rclpy.create_node('Show_image_python')
 
 Thread(target=lambda:node).start() # Starting the Thread with a target in the node
 
-subscription = node.create_subscription(String,'image_name', listener_callback, 10)
+subscription = node.create_subscription(String,'/image_name', listener_callback, 10)
 
 
 app = Flask(__name__)
 
+def get_image():
+    rclpy.spin_once(node,timeout_sec=1.0)
+    event.wait()
+    event.clear()
+    return new_image
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    new_image = get_image()
+    return render_template('index.html', new_image=new_image)
 
 @app.route('/change_image', methods=['POST'])
 def change_image():
@@ -42,10 +49,8 @@ def change_image():
     return render_template('index.html', new_image=new_image)
 
 
-
-
 ## Function that finish the actual context
-def signal_handler(signal, frame):
+def signal_handler(signal, new_image):
     rclpy.shutdown()
     sys.exit(0)
 
@@ -53,7 +58,7 @@ signal.signal(signal.SIGINT,signal_handler) # Calls the 'signal_handler' and fin
  
 ## Main funcion, only initiate the Flask app
 def main(args=None):
-    app.run(host='0.0.0.0', port=8080 ,debug=True)
+    app.run(host='0.0.0.0', port=5000 ,debug=False)
 
 
 if __name__ == '__main__':
