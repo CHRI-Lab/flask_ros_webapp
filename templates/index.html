@@ -20,7 +20,12 @@
             var image = document.getElementById('image');
             image.src = '/static/' + newImage;
         }
+        function timedRefresh(timeoutPeriod) {
+	        setTimeout("location.reload(true);",timeoutPeriod);
+        }
+        window.onload = timedRefresh(5000);
     </script>
+    
 </head>
 <body>
     <form action="/change_image" method="POST">
