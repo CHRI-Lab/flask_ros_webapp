@@ -18,7 +18,7 @@ git clone <repository_url>
 2. Navigate to the project directory:
 
 ```bash
-cd flask-app
+cd flask_ros_webapp
 ```
 
 ```bash
