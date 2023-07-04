@@ -1,4 +1,4 @@
-# Flask App README
+# Flask ROS2 WebApp - README
 
 This is a minimal template for a Flask application that subscribes to a ROS topic and changes the image rendered full screen on the client side.
 
